@@ -1,0 +1,30 @@
+services:
+  app:
+    image: cruzm224/imagen_laravel_app # Imagen en Docker Hub
+    container_name: laravel1_app
+    ports:
+      - "8000:80" # Mapea el puerto 80 del contenedor al 8000 del host
+    networks:
+      - laravel_network
+    depends_on:
+      - db
+
+  db:
+    image: cruzm224/imagen_laravel_db # Imagen oficial de MySQL desde Docker Hub
+    container_name: laravel1_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: bd_torneo
+    networks:
+      - laravel_network
+    ports:
+      - "3306:3306"
+
+volumes:
+  dbdata:
+    driver: local
+
+networks:
+  laravel_network:
+    driver: bridge
